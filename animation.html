@@ -1,0 +1,277 @@
+<html>
+    
+    
+<head>
+<title>animation</title>   
+<link href="https://fonts.googleapis.com/css?family=Poor+Story" rel="stylesheet">
+<style>
+    p{
+        text-align: center;
+    }
+    body{
+        background-image: url(images/background.jpg);
+        background-size: cover;
+        background-attachment: fixed;
+       
+    }
+#spinner {
+    width: 500px;
+    height: 500px;
+    border-radius: 1px;
+    
+   
+}  
+    #buttons{
+        text-align: center;
+    }
+    p{
+        font-family: 'Poor Story', cursive;
+        font-size: 50px;
+        color: white;
+    }
+    .cta-button{
+    background-color: transparent;
+    border: 3px solid #fff;
+    color: #fff;
+    padding: 10px 30px;
+    margin-top: 30px;
+    font-size: 20px;
+}
+.cta-button:hover{
+    background-color:#fff;
+    border: 2px solid #fff;
+    color: #000;
+}
+*{
+ 	box-sizing: border-box;
+ }
+
+ .color{
+ 	background-color: transparent;
+ 	background-size: cover;
+     background-attachment: fixed;
+ 	
+ }
+
+ .color .color-img img{
+ 	max-width: 400px;
+ 	margin: auto;
+ 	display: block;
+ }
+.color .pagination {
+	text-align: center;
+	padding:40px 0px;
+}
+.color .pagination button{
+	border:none;
+    width:25px;
+    height: 25px;
+    margin:4px;
+    cursor: pointer;
+
+}
+
+
+.color .pagination button.active{
+	animation: activeButton 1s linear alternate infinite;
+}
+
+@keyframes activeButton{
+	50%{
+		transform: scale(0.6);
+	}
+}  
+.container{
+    width: 80%;
+    margin: 0 auto;
+}
+header{
+    background: transparent;
+    
+
+}
+header::after{
+    content: '';
+    display: table;
+    clear: both;
+}
+
+    
+
+nav{
+    float:right;
+    
+}
+nav ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+nav li{
+    
+
+    display: inline-block;
+    margin-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    position: relative;
+}
+li{
+       font-family: 'Poor Story', cursive;
+
+}
+nav a{
+    color:gainsboro;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+nav a:hover{
+    color: white;
+}
+nav a::before{
+    content: '';
+    display: block;
+    height: 5px;
+    width: 100%;
+    background-color: gainsboro;
+    position: absolute;
+    top: 0;
+    width: 0%;
+    transition:  all ease-in-out 250ms;
+    
+}
+nav a:hover::before{
+    width: 100%;
+}
+
+
+</style>   
+</head>  
+<body>
+<header>
+<div class="container">
+<nav>
+<ul>
+<li><a href="index.html">Home</a></li>  
+<li><a href="animation.html">Games</a></li>    
+ 
+</ul>    
+    
+</nav>
+    
+    
+</div>    
+    
+    
+</header>
+<center><img id="spinner" src="images/rocket_snipper.png" width="70px" height="70px"></center>
+
+<p>Control the rocket</p>
+<div id="buttons">
+<button id="play" class="cta-button">Play</button>
+<button id="pause" class="cta-button">Pause</button>
+<button id="reverse" class="cta-button">Reverse</button>
+<button id="cancel" class="cta-button">Restart</button>
+</div>
+<p>Change the color</p>
+<div class="color">
+ 	 <div class="color-img">
+ 	 	 <img src="images/rocket_color.png" id="color-img" alt="color" />
+ 	 </div>
+ 	 <div class="pagination">
+ 	 </div>
+ </div>
+<script>
+    
+var spinner = document.getElementById('spinner');
+var spinnerAnimation = spinner.animate([
+    {
+        transform: 'rotate(0)'
+    },
+    {
+        transform: 'rotate(359deg)'
+    }
+], {
+    duration: 1000,
+    iterations: Infinity
+});
+
+document.getElementById('play').addEventListener('click', function() { 
+  spinnerAnimation.play();
+});
+document.getElementById('pause').addEventListener('click', function() { 
+  spinnerAnimation.pause(); 
+});
+document.getElementById('reverse').addEventListener('click', function() { 
+  spinnerAnimation.reverse(); 
+});
+document.getElementById('cancel').addEventListener('click', function() { 
+  spinnerAnimation.cancel(); 
+});    
+
+  const img=document.querySelector("#color-img");
+
+
+   var images=[{
+               	path:"images/",
+               	src:"rocket_color.png",
+               	color:"#862828"
+               },
+               {
+               	path:"images/",
+               	src:"rocket_blue.png",
+               	color:"#116098"
+               },
+               {
+               	path:"images/",
+               	src:"rocket_green.png",
+               	color:"#119866"
+               },
+               {
+               	path:"images/",
+               	src:"rocket.png",
+               	color:"#8c00a9"
+               }]
+
+       const index=2;
+
+     function pagination() {
+          for(let i=0; i<images.length;i++){
+          	 const button=document.createElement("button");
+          	       button.id=i;
+          	       button.setAttribute("onclick","changeImage(this)")
+          	       button.style.backgroundColor=images[i].color;
+                   // add active class to button
+                   if(i==index){
+                   	button.classList.add("active");
+                   }
+
+          	       document.querySelector(".pagination").appendChild(button);
+          }
+     }
+
+
+      function changeImage(element){
+           img.src=images[element.id].path + images[element.id].src;
+           const buttons=document.querySelector(".pagination").children;
+
+            for(let i=0; i<buttons.length; i++){
+            	if(buttons[i].id==element.id){
+            		buttons[i].classList.add("active");
+            	}
+            	else{
+            		buttons[i].classList.remove("active");
+            	}
+            }
+      }
+       
+       img.src=images[index].path + images[index].src;
+
+  window.onload=pagination();
+
+
+</script>
+</body>
+
+</html>
